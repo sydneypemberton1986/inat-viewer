@@ -93,12 +93,16 @@
               background: #f0f0f0; }
   .bs-sci { color: #6b6b6b; font-style: italic; font-size: .8em; }
   .bs-count { color: #9a7b4f; font-size: .78em; margin-left: auto; white-space: nowrap; }
+  /* Seasonal concentration; the "hot" variant flags species clustered in this
+     month right now, so an in-season target reads differently from a resident. */
+  .bs-season { color: #8a8a8a; font-size: .74em; margin-left: .4rem; white-space: nowrap; }
+  .bs-season-hot { color: #1f5f38; font-weight: 600; }
 </style>
 </head>
 <body>
 <h1>Sydney Pemberton</h1>
-<div class="summary-line">Sydney Pemberton &middot; 2774 taxa &middot; downloaded 2026-08-27</div>
-<details class="coverage blindspots" id="blind-spots"><summary>Blind spots within 100 km of you (○ = most-observed species near you that you haven’t recorded)</summary><p class="bs-intro">Uses your browser location to find the species people report most within 100 km, and marks which you are still missing. Your location stays in your browser — it is sent only to iNaturalist to run the query, never stored.</p><button type="button" id="bs-locate">Show blind spots near me</button><span id="bs-status" class="bs-status"></span><div id="bs-results"></div><script type="application/json" id="bs-data">{"user": "observer_sydney", "observed": [906, 3460, 3835, 4940, 5020, 5206, 5212, 6922, 7089, 7513, 7998, 9083, 9607, 9744, 10224, 11858, 11901, 12935, 13629, 13858, 14886, 14995, 16028, 16783, 16791, 17355, 19765, 26504, 26575, 26790, 36202, 36514, 39782, 41663, 42076, 42223, 43111, 44902, 46020, 46217, 47114, 47118, 47122, 47124, 47125, 47126, 47144, 47158, 47161, 47163, 47167, 47169, 47170, 47203, 47218, 47219, 47339, 47340, 47357, 47375, 47380, 47423, 47434, 47435, 47450, 47555, 47573, 47603, 47604, 47649, 47687, 47697, 47726, 47787, 47888, 47902, 47911, 47927, 48006, 48038, 48039, 48088, 48098, 48160, 48250, 48284, 48339, 48340, 48364, 48372, 48380, 48419, 48443, 48445, 48448, 48475, 48484, 48502, 48522, 48561, 48571, 48599, 48618, 48626, 48627, 48651, 48662, 48678, 48685, 48690, 48734, 48957, 49005, 49013, 49150, 49202, 49372, 49399, 49449, 49477, 49487, 49548, 49552, 49569, 49588, 49658, 49662, 49664, 49667, 49668, 49704, 49917, 49972, 50055, 50278, 50334, 50616, 50814, 50829, 50858, 50859, 50879, 50998, 51062, 51110, 51119, 51146, 51234, 51450, 51556, 51633, 51768, 51773, 51809, 51833, 51874, 51875, 51970, 52287, 52328, 52346, 52391, 52425, 52543, 52680, 52698, 52701, 52720, 52734, 52736, 52756, 52757, 52763, 52764, 52800, 52856, 52934, 52985, 52989, 52998, 53034, 53036, 53060, 53107, 53178, 53183, 53186, 53196, 53197, 53248, 53269, 53324, 53453, 53478, 53547, 53582, 53720, 53782, 53809, 53856, 54028, 54037, 54134, 54143, 54412, 54500, 54504, 54582, 54597, 54762, 54763, 54764, 54768, 54774, 54776, 54786, 54787, 54788, 54793, 54795, 54797, 54806, 54834, 54856, 54857, 54858, 55334, 55366, 55503, 55620, 55626, 55690, 55721, 55735, 55745, 55757, 55830, 55854, 55882, 55910, 56002, 56015, 56083, 56090, 56112, 56121, 56252, 56406, 56536, 56726, 56846, 56932, 56992, 57022, 57038, 57057, 57065, 57067, 57168, 57254, 57278, 57481, 57690, 57979, 58205, 58320, 58387, 58392, 58525, 58530, 58727, 58732, 58893, 58907, 58917, 58991, 59028, 59029, 59040, 59055, 59063, 59442, 59570, 59571, 59651, 59774, 59921, 60015, 60129, 60132, 60221, 60304, 60551, 60607, 60717, 60746, 60748, 60773, 60946, 60951, 61267, 61321, 61495, 61663, 61787, 62045, 62207, 62211, 62298, 62399, 62441, 62470, 62642, 62741, 62742, 62776, 62997, 63036, 63114, 63115, 63166, 63460, 63512, 63523, 63567, 63839, 63951, 64006, 64017, 64237, 64540, 64547, 64696, 64968, 65849, 65982, 67598, 67760, 67833, 67858, 68264, 68274, 68625, 69056, 69242, 69714, 69736, 69930, 70419, 71940, 72016, 72188, 72227, 72422, 72433, 72486, 73669, 74113, 75385, 75501, 75563, 75732, 75832, 75842, 75858, 75903, 75916, 76158, 76538, 76610, 76746, 76779, 76790, 76907, 76942, 77057, 77206, 77398, 77468, 77583, 77740, 77967, 78084, 78090, 78241, 78243, 78387, 78569, 78589, 78631, 78792, 78835, 78882, 79017, 79067, 79068, 79109, 79112, 79137, 79360, 79495, 81559, 81576, 81597, 81599, 81804, 81948, 82009, 82095, 82110, 82117, 82230, 82317, 82329, 82342, 82469, 82523, 82568, 82576, 83059, 83156, 83201, 83468, 83797, 83799, 83892, 83902, 84002, 84023, 84227, 84286, 84300, 84364, 84405, 84549, 84629, 84668, 84772, 84844, 85320, 85333, 85399, 85514, 85722, 85887, 89745, 94551, 94557, 95982, 103498, 116710, 116999, 117308, 117433, 117438, 117442, 117938, 118028, 118776, 118968, 118970, 118996, 119028, 119048, 119115, 119135, 119269, 119302, 119342, 119693, 119792, 119793, 119802, 119931, 119955, 119960, 119982, 119986, 119989, 120006, 120009, 120026, 120485, 120486, 120487, 120505, 120585, 120942, 120944, 121186, 121821, 121997, 122034, 122470, 122603, 122626, 122658, 122767, 122835, 122902, 122946, 122965, 123070, 123097, 123847, 123850, 123851, 123880, 123956, 124041, 124417, 124431, 125381, 125462, 125482, 125489, 125669, 125675, 125677, 125705, 125790, 126169, 126177, 126206, 126257, 126369, 126424, 126600, 126641, 126777, 126873, 126917, 127032, 127186, 127306, 127401, 127637, 127681, 127685, 127907, 127942, 128029, 128032, 128152, 128268, 128516, 128620, 128695, 128696, 128698, 128715, 128731, 128748, 128755, 128798, 128807, 128823, 128931, 128939, 129018, 129055, 129278, 129350, 129372, 129902, 130124, 130184, 130739, 130888, 130893, 130989, 131557, 131588, 132717, 133027, 133074, 133291, 133333, 133788, 133791, 133806, 135204, 135211, 135229, 135263, 135271, 135659, 138980, 142497, 142653, 142655, 142776, 143105, 143192, 143223, 143293, 143352, 143390, 143393, 143558, 143730, 143781, 143792, 143803, 144047, 145310, 145582, 145718, 146893, 147930, 147976, 148030, 152126, 152943, 153296, 153408, 153495, 153721, 153808, 153839, 153848, 154259, 154583, 155045, 155464, 155806, 156163, 157900, 158212, 158251, 158753, 159589, 159769, 160358, 160885, 161160, 161811, 161858, 162209, 162412, 163921, 164190, 164229, 164653, 165115, 165197, 165400, 165401, 165559, 165820, 165891, 165989, 166161, 166162, 166219, 166281, 166296, 166449, 166740, 166811, 167640, 167647, 167829, 168228, 168257, 168379, 168380, 168400, 168710, 168925, 169347, 169738, 169793, 170070, 170143, 170148, 170184, 170221, 170271, 170393, 172624, 172830, 176928, 181595, 181901, 184884, 186841, 194609, 194690, 196419, 198860, 198973, 199581, 199840, 200053, 202572, 203037, 203427, 203827, 204271, 205316, 208769, 209810, 209849, 212402, 213607, 215310, 216651, 221267, 223863, 224488, 225252, 226221, 226628, 227582, 227601, 227975, 228899, 228915, 229759, 232361, 233843, 236935, 242521, 243566, 243824, 244406, 244815, 252397, 259210, 269875, 271270, 271779, 273862, 283177, 286324, 295792, 298854, 303596, 307493, 310875, 311233, 311249, 319384, 319724, 319815, 321278, 321697, 324170, 324282, 324615, 324726, 325907, 325977, 326086, 326137, 326232, 326670, 328305, 332481, 333264, 334704, 337067, 340041, 340047, 345605, 346813, 350514, 352126, 352462, 356157, 358525, 362486, 366755, 367141, 372739, 372740, 372868, 373578, 376886, 390862, 401314, 410641, 415201, 415285, 416821, 424357, 424878, 426055, 465393, 466076, 467992, 469107, 470365, 472950, 473390, 474366, 477019, 484645, 485010, 488734, 492000, 492864, 494846, 499876, 504888, 505478, 509815, 510407, 510852, 514227, 538900, 539844, 549546, 551452, 552962, 553984, 554401, 567666, 605446, 626367, 632790, 713284, 736785, 736797, 743364, 750707, 780312, 785516, 785517, 787944, 789379, 791928, 794437, 839989, 861035, 861036, 907480, 914922, 922110, 922240, 933404, 941713, 950312, 952186, 966095, 1030002, 1038108, 1073900, 1089686, 1113584, 1115702, 1128570, 1138150, 1145488, 1251448, 1294579, 1302968, 1335676, 1348915, 1368641, 1391871, 1404041, 1416621, 1455248, 1488804, 1493134, 1504198, 1537055, 1550317, 1563799, 1579017, 1581188, 1616205, 1640135, 1651284, 1659202, 1696741]}</script></details>
+<div class="summary-line">Sydney Pemberton &middot; 2778 taxa &middot; downloaded 2026-08-28</div>
+<details class="coverage blindspots" id="blind-spots"><summary>Blind spots in season within 100 km of you (○ = active near you now that you haven’t recorded)</summary><p class="bs-intro">Uses your browser location and the current month to find the species reported most within 100 km right now, marks which you are still missing, and flags the ones concentrated in this season. Your location stays in your browser — it is sent only to iNaturalist to run the query, never stored.</p><button type="button" id="bs-locate">Show blind spots near me</button><span id="bs-status" class="bs-status"></span><div id="bs-results"></div><script type="application/json" id="bs-data">{"user": "observer_sydney", "observed": [906, 3460, 3835, 4765, 4940, 5020, 5206, 5212, 6922, 7089, 7513, 7998, 9083, 9607, 9744, 10224, 11858, 11901, 12935, 13629, 13858, 14886, 14995, 16028, 16783, 16791, 17355, 19765, 26504, 26575, 26790, 36202, 36514, 39782, 41663, 42076, 42223, 43111, 44902, 46020, 46217, 47114, 47118, 47122, 47124, 47125, 47126, 47144, 47158, 47161, 47163, 47167, 47169, 47170, 47203, 47218, 47219, 47339, 47340, 47357, 47375, 47380, 47423, 47434, 47435, 47450, 47555, 47573, 47603, 47604, 47649, 47687, 47697, 47726, 47787, 47888, 47902, 47911, 47927, 48006, 48038, 48039, 48088, 48098, 48160, 48250, 48284, 48339, 48340, 48364, 48372, 48380, 48419, 48443, 48445, 48448, 48475, 48484, 48502, 48522, 48561, 48571, 48599, 48618, 48626, 48627, 48651, 48662, 48678, 48685, 48690, 48734, 48957, 49005, 49013, 49150, 49202, 49372, 49399, 49449, 49477, 49487, 49548, 49552, 49569, 49588, 49658, 49662, 49664, 49667, 49668, 49704, 49917, 49972, 50055, 50278, 50334, 50616, 50814, 50829, 50858, 50859, 50879, 50998, 51062, 51110, 51119, 51146, 51234, 51450, 51556, 51633, 51768, 51773, 51809, 51833, 51874, 51875, 51970, 52287, 52328, 52346, 52391, 52425, 52543, 52680, 52698, 52701, 52720, 52734, 52736, 52756, 52757, 52763, 52764, 52800, 52856, 52934, 52985, 52989, 52998, 53034, 53036, 53060, 53107, 53178, 53183, 53186, 53196, 53197, 53248, 53269, 53324, 53453, 53478, 53547, 53582, 53720, 53782, 53809, 53856, 54028, 54037, 54134, 54143, 54412, 54500, 54504, 54582, 54597, 54762, 54763, 54764, 54768, 54774, 54776, 54786, 54787, 54788, 54793, 54795, 54797, 54806, 54834, 54856, 54857, 54858, 55334, 55366, 55503, 55620, 55626, 55690, 55721, 55735, 55745, 55757, 55830, 55854, 55882, 55910, 56002, 56015, 56083, 56090, 56112, 56121, 56252, 56406, 56536, 56726, 56846, 56932, 56992, 57022, 57038, 57057, 57065, 57067, 57168, 57254, 57278, 57481, 57690, 57979, 58205, 58320, 58387, 58392, 58525, 58530, 58727, 58732, 58893, 58907, 58917, 58991, 59028, 59029, 59040, 59055, 59063, 59442, 59570, 59571, 59651, 59774, 59921, 60015, 60129, 60132, 60221, 60304, 60551, 60607, 60717, 60746, 60748, 60773, 60946, 60951, 61267, 61321, 61495, 61663, 61787, 62045, 62207, 62211, 62298, 62399, 62441, 62470, 62642, 62741, 62742, 62776, 62997, 63036, 63114, 63115, 63166, 63460, 63512, 63523, 63567, 63839, 63951, 64006, 64017, 64237, 64540, 64547, 64696, 64968, 65849, 65982, 67598, 67760, 67833, 67858, 68264, 68274, 68625, 69056, 69242, 69714, 69736, 69930, 70419, 71940, 72016, 72188, 72227, 72422, 72433, 72486, 73669, 74113, 75385, 75501, 75563, 75732, 75832, 75842, 75858, 75903, 75916, 76158, 76538, 76610, 76746, 76779, 76790, 76907, 76942, 77057, 77206, 77398, 77468, 77583, 77740, 77967, 78084, 78090, 78241, 78243, 78387, 78569, 78589, 78631, 78792, 78835, 78882, 79017, 79067, 79068, 79109, 79112, 79137, 79360, 79495, 81559, 81576, 81597, 81599, 81804, 81948, 82009, 82095, 82110, 82117, 82230, 82317, 82329, 82342, 82469, 82523, 82568, 82576, 83059, 83156, 83201, 83468, 83797, 83799, 83892, 83902, 84002, 84023, 84227, 84286, 84300, 84364, 84405, 84549, 84629, 84668, 84772, 84844, 85320, 85333, 85399, 85514, 85722, 85887, 89745, 94551, 94557, 95982, 103498, 116710, 116999, 117308, 117433, 117438, 117442, 117938, 118028, 118776, 118968, 118970, 118996, 119028, 119048, 119115, 119135, 119269, 119302, 119342, 119693, 119792, 119793, 119802, 119931, 119955, 119960, 119982, 119986, 119989, 120006, 120009, 120026, 120485, 120486, 120487, 120505, 120585, 120942, 120944, 121186, 121821, 121997, 122034, 122470, 122603, 122626, 122658, 122767, 122835, 122902, 122946, 122965, 123070, 123097, 123847, 123850, 123851, 123880, 123956, 124041, 124417, 124431, 125381, 125462, 125482, 125489, 125669, 125675, 125677, 125705, 125790, 126169, 126177, 126206, 126257, 126369, 126424, 126600, 126641, 126777, 126873, 126917, 127032, 127186, 127306, 127401, 127637, 127681, 127685, 127907, 127942, 128029, 128032, 128152, 128268, 128516, 128620, 128695, 128696, 128698, 128715, 128731, 128748, 128755, 128798, 128807, 128823, 128931, 128939, 129018, 129055, 129278, 129350, 129372, 129902, 130124, 130184, 130739, 130888, 130893, 130989, 131557, 131588, 132717, 133027, 133074, 133291, 133333, 133788, 133791, 133806, 135204, 135211, 135229, 135263, 135271, 135659, 138980, 142497, 142653, 142655, 142776, 143105, 143192, 143223, 143293, 143352, 143390, 143393, 143558, 143730, 143781, 143792, 143803, 144047, 145310, 145582, 145718, 146893, 147930, 147976, 148030, 152126, 152943, 153296, 153408, 153495, 153721, 153808, 153839, 153848, 154259, 154583, 155045, 155464, 155806, 156163, 157900, 158212, 158251, 158753, 159589, 159769, 160358, 160885, 161160, 161811, 161858, 162209, 162412, 163921, 164190, 164229, 164653, 165115, 165197, 165400, 165401, 165559, 165820, 165891, 165989, 166161, 166162, 166219, 166281, 166296, 166449, 166740, 166811, 167640, 167647, 167829, 168228, 168257, 168379, 168380, 168400, 168710, 168925, 169347, 169738, 169793, 170070, 170143, 170148, 170184, 170221, 170271, 170393, 172624, 172830, 176928, 181595, 181901, 184884, 186841, 194609, 194690, 196419, 198860, 198973, 199581, 199840, 200053, 202572, 203037, 203427, 203827, 204271, 205316, 208769, 209810, 209849, 212402, 213607, 215310, 216651, 221267, 223863, 224488, 225252, 226221, 226628, 227582, 227601, 227975, 228899, 228915, 229759, 232361, 233843, 236935, 242521, 243566, 243824, 244406, 244815, 252397, 259210, 269875, 271270, 271779, 273862, 283177, 286324, 295792, 298854, 303596, 307493, 310875, 311233, 311249, 319384, 319724, 319815, 321278, 321697, 324170, 324282, 324615, 324726, 325907, 325977, 326086, 326137, 326232, 326670, 328305, 332481, 333264, 334704, 337067, 340041, 340047, 345605, 346813, 350514, 352126, 352462, 356157, 358525, 362486, 366755, 367141, 372739, 372740, 372868, 373578, 376886, 390862, 401314, 410641, 415201, 415285, 416821, 424357, 424878, 426055, 465393, 466076, 467992, 469107, 470365, 472950, 473390, 474366, 477019, 484645, 485010, 488734, 492000, 492864, 494846, 499876, 504888, 505478, 509815, 510407, 510852, 514227, 538900, 539844, 549546, 551452, 552962, 553984, 554401, 567666, 605446, 626367, 632790, 713284, 736785, 736797, 743364, 750707, 780312, 785516, 785517, 787944, 789379, 791928, 794437, 839989, 861035, 861036, 907480, 914922, 922110, 922240, 933404, 941713, 950312, 952186, 966095, 1030002, 1038108, 1073900, 1089686, 1113584, 1115702, 1128570, 1138150, 1145488, 1251448, 1294579, 1302968, 1335676, 1348915, 1368641, 1391871, 1404041, 1416621, 1455248, 1488804, 1493134, 1504198, 1537055, 1550317, 1563799, 1579017, 1581188, 1616205, 1640135, 1651284, 1659202, 1696741]}</script></details>
 <div class="filters">
   <label>Location
     <select id="f-region"><option value="">All</option><option value="CT">CT</option><option value="NY">NY</option><option value="PA">PA</option><option value="TX">TX</option></select>
@@ -132,9 +136,9 @@
   <button onclick="document.querySelectorAll('details').forEach(d => d.open = false)">Collapse all</button>
 </div>
 <div class="tree">
-<details open><summary><a class="taxon" href="https://www.inaturalist.org/taxa/48460" target="_blank" rel="noopener">Life</a><span class="rank">stateofmatter</span><span class="common">&mdash; life</span><a class="count" href="https://www.inaturalist.org/observations?user_id=observer_sydney&taxon_id=48460" target="_blank" rel="noopener" title="observations">(1174)</a></summary>
+<details open><summary><a class="taxon" href="https://www.inaturalist.org/taxa/48460" target="_blank" rel="noopener">Life</a><span class="rank">stateofmatter</span><span class="common">&mdash; life</span><a class="count" href="https://www.inaturalist.org/observations?user_id=observer_sydney&taxon_id=48460" target="_blank" rel="noopener" title="observations">(1175)</a></summary>
 <div class="children">
-<details open><summary><a class="taxon" href="https://www.inaturalist.org/taxa/1" target="_blank" rel="noopener">Animalia</a><span class="rank">kingdom</span><span class="common">&mdash; Animals</span><a class="count" href="https://www.inaturalist.org/observations?user_id=observer_sydney&taxon_id=1" target="_blank" rel="noopener" title="observations">(354)</a></summary>
+<details open><summary><a class="taxon" href="https://www.inaturalist.org/taxa/1" target="_blank" rel="noopener">Animalia</a><span class="rank">kingdom</span><span class="common">&mdash; Animals</span><a class="count" href="https://www.inaturalist.org/observations?user_id=observer_sydney&taxon_id=1" target="_blank" rel="noopener" title="observations">(355)</a></summary>
 <div class="children">
 <details open><summary><a class="crumb" href="https://www.inaturalist.org/taxa/47491" target="_blank" rel="noopener" title="phylum">Annelida</a><span class="chain-sep"> &rsaquo; </span><a class="crumb" href="https://www.inaturalist.org/taxa/63089" target="_blank" rel="noopener" title="class">Clitellata</a><span class="chain-sep"> &rsaquo; </span><a class="crumb" href="https://www.inaturalist.org/taxa/333586" target="_blank" rel="noopener" title="subclass">Oligochaeta</a><span class="chain-sep"> &rsaquo; </span><a class="taxon" href="https://www.inaturalist.org/taxa/152943" target="_blank" rel="noopener">Crassiclitellata</a><span class="rank">order</span><span class="common">&mdash; Typical Earthworms</span><a class="count" href="https://www.inaturalist.org/observations?user_id=observer_sydney&taxon_id=152943" target="_blank" rel="noopener" title="observations">(3)</a></summary>
 <div class="children">
@@ -1420,7 +1424,7 @@
 </div></details>
 </div></details>
 </div></details>
-<details open><summary><a class="crumb" href="https://www.inaturalist.org/taxa/2" target="_blank" rel="noopener" title="phylum">Chordata</a><span class="chain-sep"> &rsaquo; </span><a class="taxon" href="https://www.inaturalist.org/taxa/355675" target="_blank" rel="noopener">Vertebrata</a><span class="rank">subphylum</span><span class="common">&mdash; Vertebrates</span><a class="count" href="https://www.inaturalist.org/observations?user_id=observer_sydney&taxon_id=355675" target="_blank" rel="noopener" title="observations">(71)</a></summary>
+<details open><summary><a class="crumb" href="https://www.inaturalist.org/taxa/2" target="_blank" rel="noopener" title="phylum">Chordata</a><span class="chain-sep"> &rsaquo; </span><a class="taxon" href="https://www.inaturalist.org/taxa/355675" target="_blank" rel="noopener">Vertebrata</a><span class="rank">subphylum</span><span class="common">&mdash; Vertebrates</span><a class="count" href="https://www.inaturalist.org/observations?user_id=observer_sydney&taxon_id=355675" target="_blank" rel="noopener" title="observations">(72)</a></summary>
 <div class="children">
 <details open><summary><a class="crumb" href="https://www.inaturalist.org/taxa/47178" target="_blank" rel="noopener" title="class">Actinopterygii</a><span class="chain-sep"> &rsaquo; </span><a class="crumb" href="https://www.inaturalist.org/taxa/1632273" target="_blank" rel="noopener" title="superorder">Acanthomorpha</a><span class="chain-sep"> &rsaquo; </span><a class="crumb" href="https://www.inaturalist.org/taxa/1303731" target="_blank" rel="noopener" title="order">Centrarchiformes</a><span class="chain-sep"> &rsaquo; </span><a class="crumb" href="https://www.inaturalist.org/taxa/1303755" target="_blank" rel="noopener" title="suborder">Centrarchoidei</a><span class="chain-sep"> &rsaquo; </span><a class="taxon" href="https://www.inaturalist.org/taxa/49588" target="_blank" rel="noopener">Centrarchidae</a><span class="rank">family</span><span class="common">&mdash; Freshwater Sunfishes</span><a class="count" href="https://www.inaturalist.org/observations?user_id=observer_sydney&taxon_id=49588" target="_blank" rel="noopener" title="observations">(1)</a></summary>
 <div class="children">
@@ -1452,7 +1456,7 @@
 <div class="obs" data-region="PA" data-establishment="native" data-captive="0" data-coarse="0"><a class="obs-link" href="https://www.inaturalist.org/observations/389717170" target="_blank" rel="noopener"><img class="obs-thumb" src="https://static.inaturalist.org/photos/713887093/small.jpg" alt="" loading="lazy">2026-08-09</a><span class="place">White Haven, PA, US</span></div>
 </div></details>
 </div></details>
-<details open><summary><a class="taxon" href="https://www.inaturalist.org/taxa/3" target="_blank" rel="noopener">Aves</a><span class="rank">class</span><span class="common">&mdash; Birds</span><a class="count" href="https://www.inaturalist.org/observations?user_id=observer_sydney&taxon_id=3" target="_blank" rel="noopener" title="observations">(42)</a></summary>
+<details open><summary><a class="taxon" href="https://www.inaturalist.org/taxa/3" target="_blank" rel="noopener">Aves</a><span class="rank">class</span><span class="common">&mdash; Birds</span><a class="count" href="https://www.inaturalist.org/observations?user_id=observer_sydney&taxon_id=3" target="_blank" rel="noopener" title="observations">(43)</a></summary>
 <div class="children">
 <details open><summary><a class="taxon" href="https://www.inaturalist.org/taxa/71261" target="_blank" rel="noopener">Accipitriformes</a><span class="rank">order</span><span class="common">&mdash; Hawks, Eagles, Kites, and Allies</span><a class="count" href="https://www.inaturalist.org/observations?user_id=observer_sydney&taxon_id=71261" target="_blank" rel="noopener" title="observations">(5)</a></summary>
 <div class="children">
@@ -1499,6 +1503,10 @@
 <div class="children">
 <div class="obs" data-region="PA" data-establishment="native" data-captive="0" data-coarse="0"><a class="obs-link" href="https://www.inaturalist.org/observations/388011116" target="_blank" rel="noopener"><img class="obs-thumb" src="https://static.inaturalist.org/photos/710578539/small.jpg" alt="" loading="lazy">2026-08-03</a><span class="place">Capital Area Greenbelt Trail, Harrisburg, PA, US</span></div>
 </div></details>
+</div></details>
+<details open><summary><a class="crumb" href="https://www.inaturalist.org/taxa/559244" target="_blank" rel="noopener" title="order">Cathartiformes</a><span class="chain-sep"> &rsaquo; </span><a class="crumb" href="https://www.inaturalist.org/taxa/71306" target="_blank" rel="noopener" title="family">Cathartidae</a><span class="chain-sep"> &rsaquo; </span><a class="crumb" href="https://www.inaturalist.org/taxa/4764" target="_blank" rel="noopener" title="genus">Coragyps</a><span class="chain-sep"> &rsaquo; </span><a class="taxon" href="https://www.inaturalist.org/taxa/4765" target="_blank" rel="noopener">Coragyps atratus</a><span class="rank">species</span><span class="common">&mdash; Black Vulture</span><a class="count" href="https://www.inaturalist.org/observations?user_id=observer_sydney&taxon_id=4765" target="_blank" rel="noopener" title="observations">(1)</a></summary>
+<div class="children">
+<div class="obs" data-region="TX" data-establishment="native" data-captive="0" data-coarse="0"><a class="obs-link" href="https://www.inaturalist.org/observations/395077315" target="_blank" rel="noopener"><img class="obs-thumb" src="https://static.inaturalist.org/photos/724366527/small.jpg" alt="" loading="lazy">2025-08-24</a><span class="place">Balcones Dr, Austin, TX, US</span></div>
 </div></details>
 <details open><summary><a class="crumb" href="https://www.inaturalist.org/taxa/67561" target="_blank" rel="noopener" title="order">Charadriiformes</a><span class="chain-sep"> &rsaquo; </span><a class="taxon" href="https://www.inaturalist.org/taxa/3835" target="_blank" rel="noopener">Scolopacidae</a><span class="rank">family</span><span class="common">&mdash; Sandpipers and Allies</span><a class="count" href="https://www.inaturalist.org/observations?user_id=observer_sydney&taxon_id=3835" target="_blank" rel="noopener" title="observations">(1)</a></summary>
 <div class="children">
@@ -5078,6 +5086,17 @@
 
   const RADIUS_KM = 100;
   const PER_GROUP = 10;
+  // Seasonality comes from the viewer's current month. iNat's month_of_year
+  // histogram is just observation counts split by calendar month, so filtering
+  // species_counts to this month lists what is actually being seen locally now.
+  const MONTH = new Date().getMonth() + 1;
+  const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'];
+  const MONTH_NAME = MONTH_NAMES[MONTH - 1];
+  // A season-neutral species holds ~1/12 (8.3%) of its yearly local sightings in
+  // any one month; well above that means it clusters in this season — a target
+  // worth chasing now rather than a resident you can find any time.
+  const IN_SEASON_SHARE = 0.15;
   const API = 'https://api.inaturalist.org/v1/observations/species_counts';
   // iNat's iconic-taxon buckets paired with a plain-language label, in display
   // order. Mirrors the set the tree uses; the noise tiers are intentionally left off.
@@ -5102,15 +5121,32 @@
     return (await response.json()).total_results || 0;
   }
 
-  async function speciesAt(lat, lng, iconic) {
+  // The species most reported locally in the current month, per group. Recorded
+  // and missing are both listed; the mark tells them apart. Each row's count is
+  // this month's local tally.
+  async function topThisMonth(lat, lng, iconic) {
     const query = 'lat=' + lat + '&lng=' + lng + '&radius=' + RADIUS_KM
-      + '&iconic_taxa=' + iconic + '&rank=species&per_page=' + PER_GROUP;
+      + '&iconic_taxa=' + iconic + '&rank=species&per_page=' + PER_GROUP
+      + '&month=' + MONTH;
     const response = await fetch(API + '?' + query);
     if (!response.ok) throw new Error('HTTP ' + response.status);
     return (await response.json()).results || [];
   }
 
-  function itemHTML(row) {
+  // All-year local totals for specific taxa, in one call, so each species'
+  // current-month share (this month ÷ all year) shows how seasonal it is here.
+  async function totalsFor(lat, lng, ids) {
+    if (!ids.length) return {};
+    const query = 'lat=' + lat + '&lng=' + lng + '&radius=' + RADIUS_KM
+      + '&taxon_id=' + ids.join(',') + '&rank=species&per_page=' + ids.length;
+    const response = await fetch(API + '?' + query);
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    const totals = {};
+    for (const row of (await response.json()).results || []) totals[row.taxon.id] = row.count;
+    return totals;
+  }
+
+  function itemHTML(row, share) {
     const taxon = row.taxon || {};
     const id = taxon.id;
     const have = observed.has(id);
@@ -5124,20 +5160,28 @@
     const thumb = photo
       ? '<img class="bs-thumb" src="' + esc(photo) + '" alt="" loading="lazy">'
       : '';
+    // How concentrated this species is in the current month here; a high share is
+    // the "in season, go now" signal, a season-neutral one is left unadorned.
+    const season = (share != null)
+      ? '<span class="bs-season' + (share >= IN_SEASON_SHARE ? ' bs-season-hot' : '')
+        + '" title="share of this species’ yearly local sightings that fall in '
+        + MONTH_NAME + '">' + Math.round(share * 100) + '% in ' + MONTH_NAME + '</span>'
+      : '';
     const seen = row.count
-      ? '<span class="bs-count">seen ' + row.count.toLocaleString() + '× near here</span>'
+      ? '<span class="bs-count">seen ' + row.count.toLocaleString() + '× here in '
+        + MONTH_NAME + '</span>'
       : '';
     return '<li class="bs-item' + (have ? ' bs-item-have' : '') + '">' + mark
       + '<a class="bs-link" href="' + href + '" target="_blank" rel="noopener">'
       + thumb + '<span class="bs-name">' + common + '</span></a>'
-      + '<span class="bs-sci">' + sci + '</span>' + seen + '</li>';
+      + '<span class="bs-sci">' + sci + '</span>' + season + seen + '</li>';
   }
 
   async function load(lat, lng) {
-    status.textContent = 'Finding species near you…';
+    status.textContent = 'Finding what’s active near you in ' + MONTH_NAME + '…';
     results.innerHTML = '';
 
-    // Coverage line: how many of the area's species you've already recorded.
+    // Coverage line: how many of the area's species (all year) you've recorded.
     try {
       const base = 'lat=' + lat + '&lng=' + lng + '&radius=' + RADIUS_KM;
       const [total, missing] = await Promise.all([
@@ -5146,22 +5190,31 @@
       ]);
       const have = total - missing;
       status.textContent = have.toLocaleString() + ' of ' + total.toLocaleString()
-        + ' species within ' + RADIUS_KM + ' km on your list';
+        + ' species within ' + RADIUS_KM + ' km on your list · showing what’s out in '
+        + MONTH_NAME;
     } catch (err) {
       status.textContent = '';
     }
 
-    // One block per iconic group, fetched in parallel but rendered in fixed order.
-    const groups = await Promise.all(GROUPS.map((pair) =>
-      speciesAt(lat, lng, pair[0])
-        .then((rows) => [pair[1], rows])
-        .catch(() => [pair[1], []])
-    ));
+    // One block per group: this month's top species, then a single all-year call
+    // to tag each with its current-month seasonal share. Groups run in parallel.
+    const groups = await Promise.all(GROUPS.map(async (pair) => {
+      try {
+        const rows = await topThisMonth(lat, lng, pair[0]);
+        const totals = await totalsFor(lat, lng, rows.map((row) => row.taxon.id));
+        return [pair[1], rows, totals];
+      } catch (err) {
+        return [pair[1], [], {}];
+      }
+    }));
     const html = [];
-    for (const [label, rows] of groups) {
+    for (const [label, rows, totals] of groups) {
       if (!rows.length) continue;
       html.push('<div class="bs-group"><h3>' + esc(label) + '</h3><ul class="bs-list">');
-      for (const row of rows) html.push(itemHTML(row));
+      for (const row of rows) {
+        const total = totals[row.taxon.id];
+        html.push(itemHTML(row, total ? row.count / total : null));
+      }
       html.push('</ul></div>');
     }
     results.innerHTML = html.join('')
