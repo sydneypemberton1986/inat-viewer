@@ -45,6 +45,9 @@
             color: #555;
             min-height: 14px;
         }
+        .page-nav { font-size: 13px; }
+        .page-nav a { color: #14542f; font-weight: 600; text-decoration: none; }
+        .page-nav a:hover { text-decoration: underline; }
         /* Live-location marker: a blue dot with a soft pulse ring. */
         .me-dot {
             width: 16px;
@@ -59,6 +62,10 @@
 <body>
 
     <div id="ui-container">
+        <div class="control-group page-nav">
+            <span><a href="index.html">Taxonomy tree</a> &middot; <a href="rarest.html">Rarest</a></span>
+        </div>
+
         <div class="control-group">
             <label for="observer"><strong>Observer: </strong></label>
             <input type="text" id="observer" value="observer_sydney" placeholder="iNat Username">

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rarest Observations</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+               margin: 2rem; color: #1b1b1b; line-height: 1.5; }
+        h1 { font-size: 1.3rem; margin: 0 0 .25rem; }
+        .summary-line { color: #6b6b6b; font-size: .85rem; margin-bottom: 1rem; }
+        .page-nav { font-size: .85rem; margin-bottom: 1rem; }
+        .page-nav a { color: #14542f; font-weight: 600; text-decoration: none; margin-right: 1rem; }
+        .page-nav a:hover { text-decoration: underline; }
+        /* Controls: pick observer, how many to show, sort direction. */
+        .filters { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; align-items: center;
+                   margin: .5rem 0 1rem; padding: .55rem .75rem; background: #f4f6f4;
+                   border: 1px solid #e0e4e0; border-radius: 6px; font-size: .85rem; }
+        .filters label { display: inline-flex; align-items: center; gap: .35rem; color: #333; }
+        .filters input, .filters select { font: inherit; padding: .1rem .35rem; }
+        .filters button { font: inherit; padding: .15rem .6rem; cursor: pointer; }
+        #status { color: #6b6b6b; margin-left: auto; }
+        /* Ranked list of taxa, rarest globally first. */
+        ol.rare-list { list-style: none; margin: 0; padding: 0; }
+        li.rare-item { display: flex; align-items: center; gap: .7rem; padding: .4rem .3rem;
+                       border-bottom: 1px solid #eee; }
+        li.rare-item:hover { background: #eef2ee; }
+        .rank-num { width: 2.2rem; text-align: right; color: #9a7b4f; font-weight: 700;
+                    font-size: .9rem; flex: none; }
+        .thumb { width: 48px; height: 48px; object-fit: cover; border-radius: 4px;
+                 background: #f0f0f0; flex: none; }
+        .rare-main { display: flex; flex-direction: column; min-width: 0; }
+        a.rare-link { color: #14542f; text-decoration: none; font-weight: 600; }
+        a.rare-link:hover { text-decoration: underline; }
+        .sci { color: #6b6b6b; font-style: italic; font-size: .85em; }
+        .rank-label { color: #6b6b6b; font-size: .78em; font-style: italic; margin-left: .4rem; }
+        .metrics { margin-left: auto; text-align: right; flex: none; white-space: nowrap; }
+        .global { font-weight: 700; color: #b06a2c; }
+        .global-label, .yours { display: block; color: #6b6b6b; font-size: .78em; }
+    </style>
+</head>
+<body>
+    <h1>Rarest Observations</h1>
+    <div class="summary-line">Your recorded taxa, ranked by how few observations of them exist on iNaturalist worldwide &mdash; the rarest things you have seen.</div>
+    <div class="page-nav">
+        <a href="index.html">&larr; Taxonomy tree</a>
+        <a href="grid_viewer.html">Map grid viewer</a>
+    </div>
+
+    <div class="filters">
+        <label>Observer:
+            <input type="text" id="observer" value="observer_sydney" placeholder="iNat Username">
+        </label>
+        <label>Show top:
+            <select id="limit">
+                <option value="50">50</option>
+                <option value="100" selected>100</option>
+                <option value="250">250</option>
+                <option value="0">All</option>
+            </select>
+        </label>
+        <button id="loadBtn" onclick="loadRarest()">Load</button>
+        <span id="status"></span>
+    </div>
+
+    <ol id="list" class="rare-list"></ol>
+
+    <script>
+        const API = 'https://api.inaturalist.org/v1/observations/species_counts';
+        const PER_PAGE = 500;
+
+        function setStatus(msg) { document.getElementById('status').innerText = msg; }
+        function esc(s) {
+            return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
+                { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+            ));
+        }
+
+        // Pull every species_counts page for the user. Each result carries the
+        // user's `count` and `taxon.observations_count` (the global total we rank on).
+        async function fetchAll(username) {
+            const results = [];
+            let page = 1;
+            let total = Infinity;
+            while (results.length < total) {
+                const url = `${API}?user_login=${encodeURIComponent(username)}&per_page=${PER_PAGE}&page=${page}`;
+                const resp = await fetch(url);
+                if (!resp.ok) throw new Error(`iNat API returned ${resp.status}`);
+                const data = await resp.json();
+                total = data.total_results;
+                results.push(...data.results);
+                setStatus(`Loaded ${results.length} of ${total}…`);
+                if (!data.results.length) break;
+                page += 1;
+            }
+            return results;
+        }
+
+        async function loadRarest() {
+            const username = document.getElementById('observer').value.trim();
+            const limit = parseInt(document.getElementById('limit').value, 10);
+            const list = document.getElementById('list');
+            const btn = document.getElementById('loadBtn');
+            if (!username) return;
+
+            btn.disabled = true;
+            list.innerHTML = '';
+            setStatus('Loading…');
+            try {
+                const all = await fetchAll(username);
+                // Rarest first: fewest global observations. Ties broken by name.
+                all.sort((a, b) => {
+                    const ga = a.taxon?.observations_count ?? Infinity;
+                    const gb = b.taxon?.observations_count ?? Infinity;
+                    if (ga !== gb) return ga - gb;
+                    return (a.taxon?.name || '').localeCompare(b.taxon?.name || '');
+                });
+                const shown = limit > 0 ? all.slice(0, limit) : all;
+                render(shown, username);
+                setStatus(`${all.length} taxa — showing ${shown.length}`);
+            } catch (err) {
+                setStatus('Error: ' + err.message);
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        function render(items, username) {
+            const list = document.getElementById('list');
+            const rows = items.map((item, i) => {
+                const t = item.taxon || {};
+                const common = t.preferred_common_name || t.name || 'Unknown';
+                const sci = t.name || '';
+                const photo = t.default_photo?.square_url || '';
+                const global = t.observations_count;
+                // Link straight to the user's own observations of this taxon.
+                const href = `https://www.inaturalist.org/observations?user_login=${encodeURIComponent(username)}&taxon_id=${t.id}`;
+                const thumb = photo
+                    ? `<img class="thumb" src="${esc(photo)}" alt="" loading="lazy">`
+                    : `<div class="thumb"></div>`;
+                return `<li class="rare-item">
+                    <span class="rank-num">${i + 1}</span>
+                    ${thumb}
+                    <span class="rare-main">
+                        <a class="rare-link" href="${esc(href)}" target="_blank" rel="noopener">${esc(common)}</a>
+                        <span class="sci">${esc(sci)}<span class="rank-label">${esc(t.rank || '')}</span></span>
+                    </span>
+                    <span class="metrics">
+                        <span class="global">${global == null ? '—' : global.toLocaleString()}</span>
+                        <span class="global-label">global obs</span>
+                        <span class="yours">you: ${item.count}</span>
+                    </span>
+                </li>`;
+            });
+            list.innerHTML = rows.join('');
+        }
+
+        // Load on page open with the default observer.
+        loadRarest();
+    </script>
+</body>
+</html>
