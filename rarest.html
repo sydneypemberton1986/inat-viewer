@@ -34,14 +34,22 @@
         a.rare-link:hover { text-decoration: underline; }
         .sci { color: #6b6b6b; font-style: italic; font-size: .85em; }
         .rank-label { color: #6b6b6b; font-size: .78em; font-style: italic; margin-left: .4rem; }
-        .metrics { margin-left: auto; text-align: right; flex: none; white-space: nowrap; }
+        .obs-meta { color: #8a8a8a; font-size: .78em; }
+        .metrics { margin-left: auto; text-align: right; flex: none; white-space: nowrap;
+                   display: flex; flex-direction: column; align-items: flex-end; gap: .15rem; }
         .global { font-weight: 700; color: #b06a2c; }
-        .global-label, .yours { display: block; color: #6b6b6b; font-size: .78em; }
+        .global-label { color: #6b6b6b; font-size: .78em; }
+        /* Validation status: research grade = community-validated; the rest aren't. */
+        .badge { font-size: .7em; font-weight: 600; padding: .05rem .4rem; border-radius: .7rem;
+                 white-space: nowrap; }
+        .badge-research { background: #d7ead7; color: #1f5f38; }
+        .badge-needsid { background: #f4e0c6; color: #7a4712; }
+        .badge-casual { background: #e6e6e6; color: #555; }
     </style>
 </head>
 <body>
     <h1>Rarest Observations</h1>
-    <div class="summary-line">Your recorded taxa, ranked by how few observations of them exist on iNaturalist worldwide &mdash; the rarest things you have seen.</div>
+    <div class="summary-line">Your observations, ranked by how few observations of that taxon exist on iNaturalist worldwide &mdash; the rarest things you have seen. Each row shows whether the observation is community-validated (Research Grade) and links to the observation itself.</div>
     <div class="page-nav">
         <a href="index.html">Home</a>
         <a href="missed.html">Missed common things</a>
@@ -53,7 +61,7 @@
         <label>Observer:
             <input type="text" id="observer" value="observer_sydney" placeholder="iNat Username">
         </label>
-        <label>Show top:
+        <label>Rarest taxa:
             <select id="limit">
                 <option value="50">50</option>
                 <option value="100" selected>100</option>
@@ -68,8 +76,11 @@
     <ol id="list" class="rare-list"></ol>
 
     <script>
-        const API = 'https://api.inaturalist.org/v1/observations/species_counts';
-        const PER_PAGE = 500;
+        const COUNTS_API = 'https://api.inaturalist.org/v1/observations/species_counts';
+        const OBS_API = 'https://api.inaturalist.org/v1/observations';
+        const PER_PAGE = 500;      // species_counts page size
+        const OBS_PER_PAGE = 200;  // observations page size (API max)
+        const ID_CHUNK = 100;      // taxon ids per observations request (keeps URLs short)
 
         function setStatus(msg) { document.getElementById('status').innerText = msg; }
         function esc(s) {
@@ -80,22 +91,58 @@
 
         // Pull every species_counts page for the user. Each result carries the
         // user's `count` and `taxon.observations_count` (the global total we rank on).
-        async function fetchAll(username) {
+        async function fetchTaxa(username) {
             const results = [];
             let page = 1;
             let total = Infinity;
             while (results.length < total) {
-                const url = `${API}?user_login=${encodeURIComponent(username)}&per_page=${PER_PAGE}&page=${page}`;
+                const url = `${COUNTS_API}?user_login=${encodeURIComponent(username)}&per_page=${PER_PAGE}&page=${page}`;
                 const resp = await fetch(url);
                 if (!resp.ok) throw new Error(`iNat API returned ${resp.status}`);
                 const data = await resp.json();
                 total = data.total_results;
                 results.push(...data.results);
-                setStatus(`Loaded ${results.length} of ${total}…`);
+                setStatus(`Ranking taxa… ${results.length} of ${total}`);
                 if (!data.results.length) break;
                 page += 1;
             }
             return results;
+        }
+
+        // species_counts has no observation ids or validation status, so fetch the
+        // user's actual observations for the ranked taxa. Batched by taxon id to keep
+        // URLs short; each returned observation is tagged with its taxon's global
+        // rarity so the whole list can be ranked together.
+        async function fetchObservations(username, taxa) {
+            const byTaxon = {};
+            for (const item of taxa) byTaxon[item.taxon.id] = item.taxon;
+            const ids = taxa.map((t) => t.taxon.id);
+            const rows = [];
+            for (let i = 0; i < ids.length; i += ID_CHUNK) {
+                const chunk = ids.slice(i, i + ID_CHUNK);
+                let page = 1;
+                let total = Infinity;
+                let got = 0;
+                while (got < total) {
+                    const url = `${OBS_API}?user_login=${encodeURIComponent(username)}`
+                        + `&taxon_id=${chunk.join(',')}&per_page=${OBS_PER_PAGE}&page=${page}`
+                        + `&order_by=observed_on&order=desc`;
+                    const resp = await fetch(url);
+                    if (!resp.ok) throw new Error(`iNat API returned ${resp.status}`);
+                    const data = await resp.json();
+                    total = data.total_results;
+                    for (const obs of data.results) {
+                        const taxon = byTaxon[obs.taxon?.id];
+                        if (!taxon) continue;
+                        rows.push({ obs, taxon, global: taxon.observations_count });
+                    }
+                    got += data.results.length;
+                    setStatus(`Loading observations… ${rows.length}`);
+                    if (!data.results.length) break;
+                    page += 1;
+                }
+            }
+            return rows;
         }
 
         async function loadRarest() {
@@ -109,17 +156,27 @@
             list.innerHTML = '';
             setStatus('Loading…');
             try {
-                const all = await fetchAll(username);
+                const taxa = await fetchTaxa(username);
                 // Rarest first: fewest global observations. Ties broken by name.
-                all.sort((a, b) => {
+                taxa.sort((a, b) => {
                     const ga = a.taxon?.observations_count ?? Infinity;
                     const gb = b.taxon?.observations_count ?? Infinity;
                     if (ga !== gb) return ga - gb;
                     return (a.taxon?.name || '').localeCompare(b.taxon?.name || '');
                 });
-                const shown = limit > 0 ? all.slice(0, limit) : all;
-                render(shown, username);
-                setStatus(`${all.length} taxa — showing ${shown.length}`);
+                const topTaxa = limit > 0 ? taxa.slice(0, limit) : taxa;
+
+                const rows = await fetchObservations(username, topTaxa);
+                // Rank the observations by their taxon's global rarity; within a taxon,
+                // most recent first.
+                rows.sort((a, b) => {
+                    if (a.global !== b.global) return a.global - b.global;
+                    const n = (a.taxon.name || '').localeCompare(b.taxon.name || '');
+                    if (n) return n;
+                    return (b.obs.observed_on || '').localeCompare(a.obs.observed_on || '');
+                });
+                render(rows);
+                setStatus(`${rows.length} observations across ${topTaxa.length} rarest taxa`);
             } catch (err) {
                 setStatus('Error: ' + err.message);
             } finally {
@@ -127,34 +184,46 @@
             }
         }
 
-        function render(items, username) {
+        // Research Grade means the community has confirmed the ID (validated); the
+        // other grades have not reached that bar.
+        function validationBadge(grade) {
+            if (grade === 'research') return '<span class="badge badge-research">✓ Research Grade</span>';
+            if (grade === 'needs_id') return '<span class="badge badge-needsid">Needs ID</span>';
+            return '<span class="badge badge-casual">Casual</span>';
+        }
+
+        function render(rows) {
             const list = document.getElementById('list');
-            const rows = items.map((item, i) => {
-                const t = item.taxon || {};
+            const html = rows.map((row, i) => {
+                const obs = row.obs;
+                const t = row.taxon;
                 const common = t.preferred_common_name || t.name || 'Unknown';
                 const sci = t.name || '';
-                const photo = t.default_photo?.square_url || '';
-                const global = t.observations_count;
-                // Link straight to the user's own observations of this taxon.
-                const href = `https://www.inaturalist.org/observations?user_login=${encodeURIComponent(username)}&taxon_id=${t.id}`;
+                // Prefer the observation's own photo, fall back to the taxon default.
+                const photo = obs.photos?.[0]?.url || t.default_photo?.square_url || '';
+                const global = row.global;
+                // Link to the specific observation, not the taxon.
+                const href = `https://www.inaturalist.org/observations/${obs.id}`;
                 const thumb = photo
                     ? `<img class="thumb" src="${esc(photo)}" alt="" loading="lazy">`
                     : `<div class="thumb"></div>`;
+                const meta = [obs.observed_on || 'no date', obs.place_guess || '']
+                    .filter(Boolean).map(esc).join(' &middot; ');
                 return `<li class="rare-item">
                     <span class="rank-num">${i + 1}</span>
                     ${thumb}
                     <span class="rare-main">
                         <a class="rare-link" href="${esc(href)}" target="_blank" rel="noopener">${esc(common)}</a>
                         <span class="sci">${esc(sci)}<span class="rank-label">${esc(t.rank || '')}</span></span>
+                        <span class="obs-meta">${meta}</span>
                     </span>
                     <span class="metrics">
-                        <span class="global">${global == null ? '—' : global.toLocaleString()}</span>
-                        <span class="global-label">global obs</span>
-                        <span class="yours">you: ${item.count}</span>
+                        <span><span class="global">${global == null ? '—' : global.toLocaleString()}</span> <span class="global-label">global obs</span></span>
+                        ${validationBadge(obs.quality_grade)}
                     </span>
                 </li>`;
             });
-            list.innerHTML = rows.join('');
+            list.innerHTML = html.join('');
         }
 
         // Load on page open with the default observer.
