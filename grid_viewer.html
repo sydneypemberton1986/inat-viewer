@@ -40,6 +40,20 @@
         input[type="range"] {
             width: 100%;
         }
+        #status {
+            font-size: 12px;
+            color: #555;
+            min-height: 14px;
+        }
+        /* Live-location marker: a blue dot with a soft pulse ring. */
+        .me-dot {
+            width: 16px;
+            height: 16px;
+            background: #1a73e8;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 4px rgba(0,0,0,0.5);
+        }
     </style>
 </head>
 <body>
@@ -59,6 +73,11 @@
         </div>
 
         <button onclick="renderGrid()">Update Grid</button>
+
+        <div class="control-group">
+            <button id="trackBtn" onclick="toggleTracking()">📍 Track My Location</button>
+            <span id="status"></span>
+        </div>
     </div>
 
     <div id="map"></div>
@@ -100,6 +119,89 @@
 
         // Initialize grid on page load
         renderGrid();
+
+        // --- Live location tracking ---------------------------------------
+        // watchPosition streams GPS fixes as you move; we draw a dot + accuracy
+        // circle and (while "following") keep the map centered on you. Requires
+        // HTTPS, which GitHub Pages provides.
+        let watchId = null;
+        let meMarker = null;
+        let meAccuracy = null;
+        let following = false;
+
+        function setStatus(msg) {
+            document.getElementById('status').innerText = msg;
+        }
+
+        function toggleTracking() {
+            const btn = document.getElementById('trackBtn');
+
+            // Already tracking -> stop and clean up.
+            if (watchId !== null) {
+                navigator.geolocation.clearWatch(watchId);
+                watchId = null;
+                following = false;
+                if (meMarker) { map.removeLayer(meMarker); meMarker = null; }
+                if (meAccuracy) { map.removeLayer(meAccuracy); meAccuracy = null; }
+                btn.innerText = '📍 Track My Location';
+                setStatus('');
+                return;
+            }
+
+            if (!('geolocation' in navigator)) {
+                setStatus('Geolocation not supported by this browser.');
+                return;
+            }
+
+            following = true;
+            btn.innerText = '⏹ Stop Tracking';
+            setStatus('Locating…');
+            watchId = navigator.geolocation.watchPosition(onPosition, onPosError, {
+                enableHighAccuracy: true,
+                maximumAge: 1000,
+                timeout: 15000
+            });
+        }
+
+        function onPosition(pos) {
+            const { latitude, longitude, accuracy } = pos.coords;
+            const latlng = [latitude, longitude];
+
+            if (!meMarker) {
+                meMarker = L.marker(latlng, {
+                    icon: L.divIcon({
+                        className: '',
+                        html: '<div class="me-dot"></div>',
+                        iconSize: [16, 16],
+                        iconAnchor: [8, 8]
+                    })
+                }).addTo(map);
+                meAccuracy = L.circle(latlng, {
+                    radius: accuracy,
+                    color: '#1a73e8',
+                    weight: 1,
+                    fillOpacity: 0.1
+                }).addTo(map);
+            } else {
+                meMarker.setLatLng(latlng);
+                meAccuracy.setLatLng(latlng).setRadius(accuracy);
+            }
+
+            if (following) {
+                map.setView(latlng, Math.max(map.getZoom(), 14));
+            }
+            setStatus('Accuracy: ±' + Math.round(accuracy) + ' m');
+        }
+
+        function onPosError(err) {
+            setStatus('Location error: ' + err.message);
+            following = false;
+            document.getElementById('trackBtn').innerText = '📍 Track My Location';
+        }
+
+        // Dragging the map means you want to look elsewhere; stop auto-centering
+        // (the dot keeps updating). Tap the button again to re-follow.
+        map.on('dragstart', () => { following = false; });
     </script>
 </body>
 </html>
