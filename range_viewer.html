@@ -80,7 +80,8 @@
         .legend-item label { display: flex; align-items: center; gap: 7px; cursor: pointer; flex: 1; min-width: 0; }
         .swatch { width: 15px; height: 15px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.25); flex-shrink: 0; }
         .legend-thumb { width: 26px; height: 26px; object-fit: cover; border-radius: 3px; flex-shrink: 0; background: #e6e6e6; }
-        .legend-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .legend-name { display: flex; flex-direction: column; min-width: 0; }
+        .legend-name .sci { overflow-wrap: anywhere; }
         .legend-name .common { color: #6b6b6b; font-size: 11px; }
         .legend-item.parent { border-bottom: 1px dashed #e0e4e0; padding-bottom: 5px; margin-bottom: 3px; }
         .note { font-size: 11px; color: #8a6d00; background: #fff8e1; padding: 5px 7px; border-radius: 4px; }
@@ -575,11 +576,13 @@
         // remainder (a plain label) versus a real taxon (italic name + rank).
         function legendNameMarkup(entry) {
             if (entry.isRemainder) {
-                return `<span class="legend-name">${entry.name} <span style="color:#9a9a9a">(click to page through)</span></span>`;
+                return `<span class="legend-name"><span class="sci">${entry.name} <span style="color:#9a9a9a">(click to page through)</span></span></span>`;
             }
-            const common = entry.common ? `<span class="common"> — ${entry.common}</span>` : '';
+            const common = entry.common ? `<span class="common">${entry.common}</span>` : '';
             const rankLabel = entry.isParent ? 'whole taxon' : entry.rank;
-            return `<span class="legend-name"><em>${entry.name}</em> <span style="color:#9a9a9a">(${rankLabel})</span>${common}</span>`;
+            return `<span class="legend-name">`
+                + `<span class="sci"><em>${entry.name}</em> <span style="color:#9a9a9a">(${rankLabel})</span></span>`
+                + `${common}</span>`;
         }
 
         function renderLegend() {
