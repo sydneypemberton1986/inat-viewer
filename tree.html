@@ -10,14 +10,20 @@
   .controls, .filters { display: flex; flex-wrap: wrap; gap: .5rem .75rem; align-items: center; margin: .5rem 0 1rem; }
   .filters label { display: inline-flex; align-items: center; gap: .35rem; }
   .controls button, .filters select, .filters button { width: auto; margin: 0; }
-  #match-count { margin-left: auto; }
-  /* Tree indentation, thumbnail sizing, and JS-driven row hiding. */
-  .children { margin-left: .5rem; padding-left: .95rem; }
+  #match-count { margin-left: auto; color: var(--pico-muted-color); }
+  /* Tree rows: the disclosure marker hugs the label instead of the full row width. */
+  .tree summary, .leaf { width: fit-content; padding: 1px 5px; border-radius: 4px; }
+  summary:hover, .leaf:hover, .obs:hover { background: var(--pico-code-background-color); }
+  /* One faint guide rail per nesting level; it lights up along a hovered node's ancestry. */
+  .children { margin-left: .4rem; padding-left: .9rem; border-left: 1px solid var(--pico-muted-border-color); }
+  details:hover > .children { border-left-color: var(--pico-primary); }
+  .obs { display: flex; align-items: center; gap: .4rem; padding: 1px 5px; border-radius: 4px; }
   img { width: 48px; height: 48px; object-fit: cover; vertical-align: middle; border-radius: 3px; }
-  .filtered { display: none !important; }
-  /* Restore word spacing between the inline name / rank / common / count spans. */
+  /* Word spacing between the inline name / rank / common / count spans. */
   .rank, .common, .count { margin-left: .35rem; }
-  .obs { display: flex; align-items: center; gap: .4rem; }
+  a.crumb { color: var(--pico-secondary); }
+  .chain-sep { color: var(--pico-muted-color); }
+  .filtered { display: none !important; }
 </style>
 </head>
 <body>
