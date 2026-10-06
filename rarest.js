@@ -90,9 +90,9 @@ async function loadRarest() {
   }
 }
 function validationBadge(grade) {
-  if (grade === "research") return '<span class="badge badge-research">\u2713 Research Grade</span>';
-  if (grade === "needs_id") return '<span class="badge badge-needsid">Needs ID</span>';
-  return '<span class="badge badge-casual">Casual</span>';
+  if (grade === "research") return "\u2713 Research Grade";
+  if (grade === "needs_id") return "Needs ID";
+  return "Casual";
 }
 function render(rows) {
   const list = document.getElementById("list");
@@ -104,21 +104,19 @@ function render(rows) {
     const photo = obs.photos?.[0]?.url || t.default_photo?.square_url || "";
     const global = row.global;
     const href = `https://www.inaturalist.org/observations/${obs.id}`;
-    const thumb = photo ? `<img class="thumb" src="${esc(photo)}" alt="" loading="lazy">` : `<div class="thumb"></div>`;
-    const meta = [obs.observed_on || "no date", obs.place_guess || ""].filter(Boolean).map(esc).join(" &middot; ");
-    return `<li class="rare-item">
-            <span class="rank-num">${i + 1}</span>
-            ${thumb}
-            <span class="rare-main">
-                <a class="rare-link" href="${esc(href)}" target="_blank" rel="noopener">${esc(common)}</a>
-                <span class="sci">${esc(sci)}<span class="rank-label">${esc(t.rank || "")}</span></span>
-                <span class="obs-meta">${meta}</span>
-            </span>
-            <span class="metrics">
-                <span><span class="global">${global == null ? "\u2014" : global.toLocaleString()}</span> <span class="global-label">global obs</span></span>
-                ${validationBadge(obs.quality_grade)}
-            </span>
-        </li>`;
+    const thumb = photo ? `<img src="${esc(photo)}" alt="" loading="lazy">` : "";
+    const meta = [obs.observed_on || "no date", obs.place_guess || ""].filter(Boolean).map(esc).join(" \xB7 ");
+    return `<tr>
+            <td>${i + 1}</td>
+            <td>${thumb}</td>
+            <td>
+                <a href="${esc(href)}" target="_blank" rel="noopener">${esc(common)}</a><br>
+                <small><i>${esc(sci)}</i> ${esc(t.rank || "")}</small><br>
+                <small>${meta}</small>
+            </td>
+            <td>${global == null ? "\u2014" : global.toLocaleString()}</td>
+            <td>${validationBadge(obs.quality_grade)}</td>
+        </tr>`;
   });
   list.innerHTML = html.join("");
 }

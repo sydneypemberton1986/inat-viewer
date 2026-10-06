@@ -4,76 +4,49 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rarest Observations</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.jade.min.css">
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-               margin: 2rem; color: #1b1b1b; line-height: 1.5; }
-        h1 { font-size: 1.3rem; margin: 0 0 .25rem; }
-        .summary-line { color: #6b6b6b; font-size: .85rem; margin-bottom: 1rem; }
-        .page-nav { font-size: .85rem; margin-bottom: 1rem; }
-        .page-nav a { color: #14542f; font-weight: 600; text-decoration: none; margin-right: 1rem; }
-        .page-nav a:hover { text-decoration: underline; }
-        /* Controls: pick observer, how many to show, sort direction. */
-        .filters { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; align-items: center;
-                   margin: .5rem 0 1rem; padding: .55rem .75rem; background: #f4f6f4;
-                   border: 1px solid #e0e4e0; border-radius: 6px; font-size: .85rem; }
-        .filters label { display: inline-flex; align-items: center; gap: .35rem; color: #333; }
-        .filters input, .filters select { font: inherit; padding: .1rem .35rem; }
-        .filters button { font: inherit; padding: .15rem .6rem; cursor: pointer; }
-        #status { color: #6b6b6b; margin-left: auto; }
-        /* Ranked list of taxa, rarest globally first. */
-        ol.rare-list { list-style: none; margin: 0; padding: 0; }
-        li.rare-item { display: flex; align-items: center; gap: .7rem; padding: .4rem .3rem;
-                       border-bottom: 1px solid #eee; }
-        li.rare-item:hover { background: #eef2ee; }
-        .rank-num { width: 2.2rem; text-align: right; color: #9a7b4f; font-weight: 700;
-                    font-size: .9rem; flex: none; }
-        .thumb { width: 48px; height: 48px; object-fit: cover; border-radius: 4px;
-                 background: #f0f0f0; flex: none; }
-        .rare-main { display: flex; flex-direction: column; min-width: 0; }
-        a.rare-link { color: #14542f; text-decoration: none; font-weight: 600; }
-        a.rare-link:hover { text-decoration: underline; }
-        .sci { color: #6b6b6b; font-style: italic; font-size: .85em; }
-        .rank-label { color: #6b6b6b; font-size: .78em; font-style: italic; margin-left: .4rem; }
-        .obs-meta { color: #8a8a8a; font-size: .78em; }
-        .metrics { margin-left: auto; text-align: right; flex: none; white-space: nowrap;
-                   display: flex; flex-direction: column; align-items: flex-end; gap: .15rem; }
-        .global { font-weight: 700; color: #b06a2c; }
-        .global-label { color: #6b6b6b; font-size: .78em; }
-        /* Validation status: research grade = community-validated; the rest aren't. */
-        .badge { font-size: .7em; font-weight: 600; padding: .05rem .4rem; border-radius: .7rem;
-                 white-space: nowrap; }
-        .badge-research { background: #d7ead7; color: #1f5f38; }
-        .badge-needsid { background: #f4e0c6; color: #7a4712; }
-        .badge-casual { background: #e6e6e6; color: #555; }
+        /* Constrain thumbnails; without this they render at natural size. */
+        td img { width: 48px; height: 48px; object-fit: cover; border-radius: 4px; }
     </style>
 </head>
 <body>
-    <h1>Rarest Observations</h1>
-    <div class="summary-line">Your observations, ranked by how few observations of that taxon exist on iNaturalist worldwide &mdash; the rarest things you have seen. Each row shows whether the observation is community-validated (Research Grade) and links to the observation itself.</div>
-    <div class="page-nav">
-        <a href="index.html">Home</a>
-        <a href="missed.html">Missed common things</a>
-        <a href="tree.html">Taxonomy tree</a>
-        <a href="grid_viewer.html">Map</a>
-    </div>
+    <main>
+        <hgroup>
+            <h1>Rarest Observations</h1>
+            <p>Your observations, ranked by how few observations of that taxon exist on iNaturalist worldwide &mdash; the rarest things you have seen. Each row shows whether the observation is community-validated (Research Grade) and links to the observation itself.</p>
+        </hgroup>
 
-    <div class="filters">
-        <label>Observer:
-            <input type="text" id="observer" value="observer_sydney" placeholder="iNat Username">
-        </label>
-        <label>Rarest taxa:
-            <select id="limit">
-                <option value="50">50</option>
-                <option value="100" selected>100</option>
-                <option value="250">250</option>
-                <option value="0">All</option>
-            </select>
-        </label>
-        <button id="loadBtn" onclick="loadRarest()">Load</button>
-        <span id="status"></span>
-    </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="missed.html">Missed common things</a></li>
+                <li><a href="tree.html">Taxonomy tree</a></li>
+                <li><a href="grid_viewer.html">Map</a></li>
+            </ul>
+        </nav>
 
-    <ol id="list" class="rare-list"></ol>
+        <form onsubmit="return false">
+            <fieldset role="group">
+                <input type="text" id="observer" value="observer_sydney" placeholder="iNat username" aria-label="Observer">
+                <select id="limit" aria-label="How many rarest taxa">
+                    <option value="50">50 rarest</option>
+                    <option value="100" selected>100 rarest</option>
+                    <option value="250">250 rarest</option>
+                    <option value="0">All</option>
+                </select>
+                <button id="loadBtn" onclick="loadRarest()">Load</button>
+            </fieldset>
+            <small id="status"></small>
+        </form>
+
+        <table>
+            <thead>
+                <tr><th>#</th><th></th><th>Taxon</th><th>Global obs</th><th>Status</th></tr>
+            </thead>
+            <tbody id="list"></tbody>
+        </table>
+    </main>
 
     <script type="module" src="rarest.js"></script>
 </body>
