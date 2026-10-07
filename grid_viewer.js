@@ -1,5 +1,5 @@
 // src/grid_viewer.ts
-var map = L.map("map").setView([30.2672, -97.7431], 10);
+var map = L.map("map").setView([30.26, -97.74], 10);
 var satellite = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
   maxZoom: 18,
   attribution: "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
@@ -15,8 +15,8 @@ var topo = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
 satellite.addTo(map);
 L.control.layers({
   "Satellite": satellite,
-  "Street map (parks in green)": streets,
-  "Topographic": topo
+  "Streets": streets,
+  "Topography": topo
 }, null, { position: "topleft" }).addTo(map);
 map.createPane("gridPane");
 map.getPane("gridPane").style.zIndex = "350";
@@ -38,7 +38,7 @@ function renderGrid() {
     map.removeLayer(iNatShadowLayer);
     iNatShadowLayer = null;
   }
-  const apiUrl = `https://api.inaturalist.org/v1/grid/{z}/{x}/{y}.png?user_login=${encodeURIComponent(username)}&color=red`;
+  const apiUrl = `https://api.inaturalist.org/v1/grid/{z}/{x}/{y}.png?user_login=${encodeURIComponent(username)}&color=blue`;
   const shadowZoom = nativeZoom - 1;
   if (shadowZoom >= 0) {
     iNatShadowLayer = L.tileLayer(apiUrl, {
